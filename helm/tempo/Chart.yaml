@@ -1,0 +1,23 @@
+apiVersion: v2
+appVersion: 2.2.3
+name: tempo
+description: Helm chart for Grafana Tempo in microservice mode
+dependencies:
+  - name: tempo-distributed
+    version: 1.6.13
+    repository: https://grafana.github.io/helm-charts
+    condition: tempo.enabled
+    alias: tempo
+home: https://github.com/giantswarm/tempo-app
+maintainers:
+  - name: giantswarm/team-atlas
+    email: team-atlas@giantswarm.io
+restrictions:
+  namespaceSingleton: true
+sources:
+- https://github.com/giantswarm/tempo-app
+- https://github.com/grafana/helm-charts/blob/main/charts/tempo-distributed
+type: application
+version: 0.0.0-dev
+annotations:
+  application.giantswarm.io/team: atlas
