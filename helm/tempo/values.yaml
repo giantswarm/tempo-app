@@ -1,4 +1,236 @@
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images, excluding enterprise.
+    registry: docker.io
+    # -- Optional list of imagePullSecrets for all images, excluding enterprise.
+    # Names of existing secrets with private container registry credentials.
+    # Ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+    # Example:
+    # pullSecrets: [ my-dockerconfigjson-secret ]
+    pullSecrets: []
+  # -- Overrides the priorityClassName for all pods
+  priorityClassName: null
+  # -- configures cluster domain ("cluster.local" by default)
+  clusterDomain: 'cluster.local'
+  # -- configures DNS service name
+  dnsService: 'coredns'
+  # -- configures DNS service namespace
+  dnsNamespace: 'kube-system'
+
 tempo:
   # You can make the whole chart ineffective by setting this one to "false"
   enabled: true
 
+  distributor:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      targetCPUUtilizationPercentage: 60
+    affinity: |
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                {{- include "tempo.selectorLabels" (dict "ctx" . "component" "distributor") | nindent 10 }}
+            topologyKey: kubernetes.io/hostname
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "distributor") | nindent 12 }}
+              topologyKey: topology.kubernetes.io/zone
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/compute-type
+              operator: NotIn
+              values:
+              - fargate
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+
+  gateway:
+    enabled: true
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      targetCPUUtilizationPercentage: 90
+    image:
+      repository: giantswarm/nginx-unprivileged
+    resources:
+      limits:
+        memory: 500Mi
+      requests:
+        memory: 50Mi
+        cpu: 50m
+
+  ingester:
+    affinity: |
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "ingester") | nindent 12 }}
+              topologyKey: kubernetes.io/hostname
+          - weight: 75
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "ingester") | nindent 12 }}
+              topologyKey: topology.kubernetes.io/zone
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/compute-type
+              operator: NotIn
+              values:
+              - fargate
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+
+  memcached:
+    enabled: false
+
+  metaMonitoring:
+    # ServiceMonitor configuration
+    serviceMonitor:
+      enabled: true
+    grafanaAgent:
+      enabled: false
+    prometheusRule:
+      enabled: false
+
+  metricsGenerator:
+    affinity: |
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                {{- include "tempo.selectorLabels" (dict "ctx" . "component" "metrics-generator") | nindent 10 }}
+            topologyKey: kubernetes.io/hostname
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "metrics-generator") | nindent 12 }}
+              topologyKey: topology.kubernetes.io/zone
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/compute-type
+              operator: NotIn
+              values:
+              - fargate
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+
+  querier:
+    affinity: |
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                {{- include "tempo.selectorLabels" (dict "ctx" . "component" "querier" "memberlist" true) | nindent 10 }}
+            topologyKey: kubernetes.io/hostname
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "querier" "memberlist" true) | nindent 12 }}
+              topologyKey: topology.kubernetes.io/zone
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/compute-type
+              operator: NotIn
+              values:
+              - fargate
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+
+  queryFrontend:
+    affinity: |
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "query-frontend") | nindent 12 }}
+              topologyKey: kubernetes.io/hostname
+          - weight: 75
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "tempo.selectorLabels" (dict "ctx" . "component" "query-frontend") | nindent 12 }}
+              topologyKey: topology.kubernetes.io/zone
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: eks.amazonaws.com/compute-type
+              operator: NotIn
+              values:
+              - fargate
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+
+  rbac:
+    pspEnabled: true
+    pspAnnotations:
+      seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+
+  serviceAccount:
+    # -- Specifies whether a ServiceAccount should be created
+    create: true
+    # -- The name of the ServiceAccount to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: tempo
+    # -- Image pull secrets for the service account
+    imagePullSecrets: []
+    # -- Annotations for the service account
+    annotations: {}
+    automountServiceAccountToken: true
+
+  tempo:
+    image:
+      # -- Docker image repository
+      repository: giantswarm/tempo
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      seccompProfile:
+        type: RuntimeDefault
+    # -- podSecurityContext holds pod-level security attributes and common container settings
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+
+  test:
+    enabled: false
+
+  traces:
+    otlp:
+      http:
+        enabled: true
+      grpc:
+        enabled: true

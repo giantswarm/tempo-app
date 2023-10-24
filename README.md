@@ -65,8 +65,6 @@ or [azure sample config file](https://github.com/giantswarm/tempo-app/blob/main/
 read the comments for options and adjust to your needs. To check all available
 options, please consult the [full `values.yaml` file](https://github.com/giantswarm/tempo-app/blob/main/helm/tempo/values.yaml).
 
-TODO: Fill out if needed
-
 #### Multi-tenant setup
 
 TODO: Not ready yet
@@ -80,8 +78,6 @@ AWS account.
 
 Make sure to create this config for the *cluster* where you are deploying Tempo, and not at installation-level.
 
-// TODO test this
-
 #### Prepare AWS S3 storage.
 
 Create a new private S3 bucket based in the same region
@@ -94,7 +90,6 @@ as your instances. Ex. `gs-tempo-storage`.
 ```bash
 # prepare environment
 export CLUSTER_NAME=zj88t
-export NODEPOOL_ID=oy9v0
 export REGION=eu-central-1
 export INSTALLATION=gorilla
 export BUCKET_NAME=gs-tempo-storage-"$CLUSTER_NAME" # must be globally unique
@@ -148,6 +143,7 @@ Giant Swarm uses IRSA (Iam Roles for Service Accounts) to allow pods to access S
 
 This means that the role's `Trust Relationship` will be different that the one used for KIAM (cf above) :
 ```bash
+PRINCIPAL_ARN="$(aws --profile="$AWS_PROFILE" iam get-role --role-name "$CLUSTER_NAME"-IAMManager-Role | sed -n 's/.*Arn.*"\(arn:.*\)".*/\1/p')"
 ROLE_DOC='{
     "Version": "2012-10-17",
     "Statement": [
