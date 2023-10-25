@@ -1,4 +1,7 @@
-replace-chart-version-with-git: true
-generate-metadata: true
 chart-dir: ./helm/tempo-app
+ct-config: ./.circleci/ct-config.yaml
 destination: ./build
+generate-metadata: true
+replace-app-version-with-git: false
+replace-chart-version-with-git: true
+catalog-base-url: https://giantswarm.github.io/giantswarm-catalog/
