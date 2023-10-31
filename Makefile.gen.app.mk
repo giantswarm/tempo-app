@@ -6,10 +6,10 @@
 ##@ App
 
 YQ=docker run --rm -u $$(id -u) -v $${PWD}:/workdir mikefarah/yq:4.29.2
-HELM_DOCS=docker run --rm -u $(id -u) -v ${PWD}:/helm-docs jnorwood/helm-docs:v1.11.0
+HELM_DOCS=docker run --rm -u $$(id -u) -v $${PWD}:/helm-docs jnorwood/helm-docs:v1.11.0
 
 ifdef APPLICATION
-DEPS := $(shell find helm/$(APPLICATION) -maxdepth 2 -name "Chart.yaml" -printf "%h\n")
+DEPS := $(shell find $(APPLICATION)/charts -maxdepth 2 -name "Chart.yaml" -printf "%h\n")
 endif
 
 .PHONY: lint-chart check-env update-chart helm-docs update-deps $(DEPS)
@@ -34,7 +34,7 @@ update-deps: check-env $(DEPS) ## Update Helm dependencies.
 
 $(DEPS): check-env ## Update main Chart.yaml with new local dep versions.
 	dep_name=$(shell basename $@) && \
-	new_version=`$(YQ) .version helm/$(APPLICATION)/$$dep_name/Chart.yaml` && \
+	new_version=`$(YQ) .version $(APPLICATION)/charts/$$dep_name/Chart.yaml` && \
 	$(YQ) -i e "with(.dependencies[]; select(.name == \"$$dep_name\") | .version = \"$$new_version\")" $(APPLICATION)/Chart.yaml
 
 helm-docs: check-env ## Update $(APPLICATION) README.
