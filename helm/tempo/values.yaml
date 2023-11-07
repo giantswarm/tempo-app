@@ -100,6 +100,8 @@ tempo:
     # ServiceMonitor configuration
     serviceMonitor:
       enabled: true
+      # Make this a string type because of an upstream issue https://github.com/grafana/helm-charts/blob/fdb555b8be1131d5ae4f5f8829a2c6508e3df4ca/charts/tempo-distributed/templates/lib/service-monitor.tpl#L53C33-L53C45
+      clusterLabel: "tempo"
     grafanaAgent:
       enabled: false
     prometheusRule:
