@@ -30,3 +30,17 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+
+      - architect/push-to-app-collection:
+          context: "architect"
+          name: aws-app-collection
+          app_name: "tempo"
+          app_namespace: "tempo"
+          app_collection_repo: "aws-app-collection"
+          requires:
+            - "package and push tempo chart to control-plane-catalogs"
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
