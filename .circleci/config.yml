@@ -38,7 +38,7 @@ workflows:
           app_namespace: "tempo"
           app_collection_repo: "aws-app-collection"
           requires:
-            - "package and push tempo chart to control-plane-catalogs"
+            - "package and push chart to control-plane-catalogs"
           filters:
             branches:
               ignore: /.*/
