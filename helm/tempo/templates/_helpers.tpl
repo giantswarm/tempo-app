@@ -20,5 +20,11 @@ app.kubernetes.io/version: {{ .ctx.Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
 giantswarm.io/service-type: "managed"
+{{- if and .ctx.Chart .ctx.Chart.Annotations }}
 application.giantswarm.io/team: {{ index .ctx.Chart.Annotations "application.giantswarm.io/team" | default "atlas" | quote }}
+{{- else if and .Chart .Chart.Annotations }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | default "atlas" | quote }}
+{{- else }}
+application.giantswarm.io/team: atlas
+{{- end }}
 {{- end }}
