@@ -1,7 +1,7 @@
 global:
   image:
     # -- Overrides the Docker registry globally for all images, excluding enterprise.
-    registry: docker.io
+    registry: gsoci.azurecr.io
     # -- Optional list of imagePullSecrets for all images, excluding enterprise.
     # Names of existing secrets with private container registry credentials.
     # Ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
@@ -9,7 +9,7 @@ global:
     # pullSecrets: [ my-dockerconfigjson-secret ]
     pullSecrets: []
   # -- Overrides the priorityClassName for all pods
-  priorityClassName: null
+  priorityClassName:
   # -- configures cluster domain ("cluster.local" by default)
   clusterDomain: 'cluster.local'
   # -- configures DNS service name
