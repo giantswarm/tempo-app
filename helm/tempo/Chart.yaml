@@ -9,6 +9,7 @@ dependencies:
     condition: tempo.enabled
     alias: tempo
 home: https://github.com/giantswarm/tempo-app
+icon: https://s.giantswarm.io/app-icons/grafana-tempo/1/light.svg
 maintainers:
   - name: giantswarm/team-atlas
     email: team-atlas@giantswarm.io
