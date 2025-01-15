@@ -6,13 +6,13 @@ tempo:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-giantswarm
       hosts:
-        - host: tempo.g8s.gaia.eu-central-1.aws.gigantic.io
+        - host: tempo.example.com
           paths:
             - path: /
               pathType: ImplementationSpecific
       tls:
         - hosts:
-          - tempo.g8s.gaia.eu-central-1.aws.gigantic.io
+          - tempo.example.com
           secretName: tempo-ingress-cert
   storage:
     trace:
