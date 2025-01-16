@@ -18,6 +18,6 @@ tempo:
     trace:
       backend: s3
       s3:
-        bucket: tempo
-        endpoint: s3.eu-central-1.amazonaws.com
-        region: eu-central-1
+        bucket: # S3 bucket name
+        endpoint: # S3 endpoint url
+        region: # S3 region name
