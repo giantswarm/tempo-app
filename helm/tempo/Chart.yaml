@@ -4,11 +4,12 @@ name: tempo
 description: Helm chart for Grafana Tempo in microservice mode
 dependencies:
   - name: tempo-distributed
-    version: 1.7.3
+    version: 1.38.2
     repository: https://grafana.github.io/helm-charts
     condition: tempo.enabled
     alias: tempo
 home: https://github.com/giantswarm/tempo-app
+icon: https://s.giantswarm.io/app-icons/grafana-tempo/1/light.svg
 maintainers:
   - name: giantswarm/team-atlas
     email: team-atlas@giantswarm.io
