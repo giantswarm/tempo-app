@@ -4,7 +4,7 @@ name: tempo
 description: Helm chart for Grafana Tempo in microservice mode
 dependencies:
   - name: tempo-distributed
-    version: 1.40.3
+    version: 1.41.0
     repository: https://grafana.github.io/helm-charts
     condition: tempo.enabled
     alias: tempo
