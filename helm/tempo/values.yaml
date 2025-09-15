@@ -96,7 +96,6 @@ tempo:
   memcached:
     enabled: true
     image:
-      registry: gsoci.azurecr.io
       repository: giantswarm/memcached
 
   metaMonitoring:
