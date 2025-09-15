@@ -21,10 +21,6 @@ tempo:
   # You can make the whole chart ineffective by setting this one to "false"
   enabled: true
 
-  structuredConfig:
-    # Support streaming of queries
-    stream_over_http_enabled: true
-
   distributor:
     autoscaling:
       enabled: true
@@ -211,6 +207,9 @@ tempo:
     automountServiceAccountToken: true
 
   tempo:
+    structuredConfig:
+      # Support streaming of queries
+      stream_over_http_enabled: true
     image:
       # -- Docker image repository
       repository: giantswarm/tempo
