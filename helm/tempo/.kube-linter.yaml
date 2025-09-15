@@ -1,7 +1,8 @@
 exemptions:
   - paths:
-      - "tempo/charts/tempo-distributed/charts/grafana-agent-operator**"
-    reason: "Skip grafana agent manifests as it is not used"
+      - "helm/tempo/charts/tempo-distributed/charts/grafana-agent-operator**"
+      - "helm/tempo/charts/tempo-distributed/charts/minio**"
+    reason: "Skip unused manifests"
 checks:
   addAllBuiltIn: true
   exclude:
