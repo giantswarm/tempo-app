@@ -1,3 +1,7 @@
+exemptions:
+  - paths:
+      - "tempo/charts/tempo-distributed/charts/grafana-agent-operator**"
+    reason: "Skip grafana agent manifests as it is not used"
 checks:
   addAllBuiltIn: true
   exclude:
