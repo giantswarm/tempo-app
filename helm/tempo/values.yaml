@@ -98,7 +98,6 @@ tempo:
     image:
       registry: gsoci.azurecr.io
       repository: giantswarm/memcached
-      tag: 1.6.33-alpine
 
   metaMonitoring:
     # ServiceMonitor configuration
