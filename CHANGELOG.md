@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Configure `gsoci.azurecr.io` as the default container image registry.
 - Upgrade tempo-distributed chart from 1.21.0 to 1.38.2
+- Enable memcached and configure its image.
 
 ## [0.1.2] - 2023-12-19
 
