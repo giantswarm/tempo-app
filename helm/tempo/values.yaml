@@ -250,20 +250,20 @@ tempo:
       receiverConfig: {}
       thriftCompact:
         # -- Enable Tempo to ingest Jaeger Thrift Compact traces
-        enabled: true
+        enabled: false
         # -- Jaeger Thrift Compact receiver config
       thriftHttp:
         # -- Enable Tempo to ingest Jaeger Thrift HTTP traces
-        enabled: true
+        enabled: false
         # -- Jaeger Thrift HTTP receiver config
-      otlp:
-        http:
-          # -- Enable Tempo to ingest Open Telemetry HTTP traces
-          enabled: true
-          # -- HTTP receiver advanced config
-        grpc:
-          # -- Enable Tempo to ingest Open Telemetry GRPC traces
-          enabled: true
-          # -- GRPC receiver advanced config
-        receiverConfig:
-          max_recv_msg_size_mib: 1000000000
+    otlp:
+      http:
+        # -- Enable Tempo to ingest Open Telemetry HTTP traces
+        enabled: true
+        # -- HTTP receiver advanced config
+      grpc:
+        # -- Enable Tempo to ingest Open Telemetry GRPC traces
+        enabled: true
+        # -- GRPC receiver advanced config
+      receiverConfig:
+        max_recv_msg_size_mib: 1000000000

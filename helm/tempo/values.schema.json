@@ -338,35 +338,6 @@
                                         }
                                     }
                                 },
-                                "otlp": {
-                                    "type": "object",
-                                    "properties": {
-                                        "grpc": {
-                                            "type": "object",
-                                            "properties": {
-                                                "enabled": {
-                                                    "type": "boolean"
-                                                }
-                                            }
-                                        },
-                                        "http": {
-                                            "type": "object",
-                                            "properties": {
-                                                "enabled": {
-                                                    "type": "boolean"
-                                                }
-                                            }
-                                        },
-                                        "receiverConfig": {
-                                            "type": "object",
-                                            "properties": {
-                                                "max_recv_msg_size_mib": {
-                                                    "type": "integer"
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
                                 "receiverConfig": {
                                     "type": "object"
                                 },
@@ -391,6 +362,35 @@
                                     "properties": {
                                         "enabled": {
                                             "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "otlp": {
+                            "type": "object",
+                            "properties": {
+                                "grpc": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "http": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "receiverConfig": {
+                                    "type": "object",
+                                    "properties": {
+                                        "max_recv_msg_size_mib": {
+                                            "type": "integer"
                                         }
                                     }
                                 }
