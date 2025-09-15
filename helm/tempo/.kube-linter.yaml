@@ -1,7 +1,7 @@
 exemptions:
   - paths:
-      - "/root/project/helm/tempo/charts/tempo-distributed/charts/grafana-agent-operator/templates/**"
-      - "/root/project/helm/tempo/charts/tempo-distributed/charts/minio/templates/**"
+      - "charts/tempo-distributed/charts/grafana-agent-operator/templates/**"
+      - "charts/tempo-distributed/charts/minio/templates/**"
     check: "*"
     reason: "Skip unused manifests"
 
