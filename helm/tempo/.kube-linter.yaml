@@ -1,12 +1,8 @@
-exemptions:
-  - paths:
-      - "charts/tempo-distributed/charts/grafana-agent-operator/templates/**"
-      - "charts/tempo-distributed/charts/minio/templates/**"
-    check: "*"
-    reason: "Skip unused manifests"
-
 checks:
   addAllBuiltIn: true
+  ignorePaths:
+    - "helm/tempo/charts/tempo-distributed/charts/grafana-agent-operator/templates/**"
+    - "helm/tempo/charts/tempo-distributed/charts/minio/templates/**"
   exclude:
     - "unset-cpu-requirements"
     - "unset-memory-requirements"
