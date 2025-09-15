@@ -21,8 +21,8 @@ tempo:
   # You can make the whole chart ineffective by setting this one to "false"
   enabled: true
 
-  structuredConfig:                                                                                                                                                                                    
-    # Support streaming of queries                                                                                                                                                                     
+  structuredConfig:
+    # Support streaming of queries
     stream_over_http_enabled: true
 
   distributor:
@@ -238,32 +238,32 @@ tempo:
     enabled: false
 
   traces:
-    jaeger:                                                                                                                                                                                            
-      grpc:                                                                                                                                                                                            
-        # -- Enable Tempo to ingest Jaeger GRPC traces                                                                                                                                                 
-        enabled: false                                                                                                                                                                                 
-        # -- Jaeger GRPC receiver config                                                                                                                                                               
-      thriftBinary:                                                                                                                                                                                    
-        # -- Enable Tempo to ingest Jaeger Thrift Binary traces                                                                                                                                        
-        enabled: false                                                                                                                                                                                 
+    jaeger:
+      grpc:
+        # -- Enable Tempo to ingest Jaeger GRPC traces
+        enabled: false
+        # -- Jaeger GRPC receiver config
+      thriftBinary:
+        # -- Enable Tempo to ingest Jaeger Thrift Binary traces
+        enabled: false
         # -- Jaeger Thrift Binary receiver config
       receiverConfig: {}
       thriftCompact:
         # -- Enable Tempo to ingest Jaeger Thrift Compact traces
-        enabled: true 
+        enabled: true
         # -- Jaeger Thrift Compact receiver config
-      thriftHttp:  
-        # -- Enable Tempo to ingest Jaeger Thrift HTTP traces  
-        enabled: true 
-        # -- Jaeger Thrift HTTP receiver config  
-      otlp:             
-        http:       
+      thriftHttp:
+        # -- Enable Tempo to ingest Jaeger Thrift HTTP traces
+        enabled: true
+        # -- Jaeger Thrift HTTP receiver config
+      otlp:
+        http:
           # -- Enable Tempo to ingest Open Telemetry HTTP traces
           enabled: true
-          # -- HTTP receiver advanced config                                                     
-        grpc:    
+          # -- HTTP receiver advanced config
+        grpc:
           # -- Enable Tempo to ingest Open Telemetry GRPC traces
           enabled: true
-          # -- GRPC receiver advanced config                                                     
+          # -- GRPC receiver advanced config
         receiverConfig:
           max_recv_msg_size_mib: 1000000000

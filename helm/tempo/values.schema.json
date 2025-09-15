@@ -26,7 +26,7 @@
                     }
                 },
                 "priorityClassName": {
-                    "type": ["string", "null"]
+                    "type": "null"
                 }
             }
         },
@@ -125,6 +125,14 @@
                     "properties": {
                         "enabled": {
                             "type": "boolean"
+                        },
+                        "image": {
+                            "type": "object",
+                            "properties": {
+                                "repository": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
@@ -165,6 +173,9 @@
                     "properties": {
                         "affinity": {
                             "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
                         }
                     }
                 },
@@ -217,6 +228,14 @@
                         },
                         "name": {
                             "type": "string"
+                        }
+                    }
+                },
+                "structuredConfig": {
+                    "type": "object",
+                    "properties": {
+                        "stream_over_http_enabled": {
+                            "type": "boolean"
                         }
                     }
                 },
@@ -308,7 +327,7 @@
                 "traces": {
                     "type": "object",
                     "properties": {
-                        "otlp": {
+                        "jaeger": {
                             "type": "object",
                             "properties": {
                                 "grpc": {
@@ -319,7 +338,55 @@
                                         }
                                     }
                                 },
-                                "http": {
+                                "otlp": {
+                                    "type": "object",
+                                    "properties": {
+                                        "grpc": {
+                                            "type": "object",
+                                            "properties": {
+                                                "enabled": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        },
+                                        "http": {
+                                            "type": "object",
+                                            "properties": {
+                                                "enabled": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        },
+                                        "receiverConfig": {
+                                            "type": "object",
+                                            "properties": {
+                                                "max_recv_msg_size_mib": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "receiverConfig": {
+                                    "type": "object"
+                                },
+                                "thriftBinary": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "thriftCompact": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "thriftHttp": {
                                     "type": "object",
                                     "properties": {
                                         "enabled": {
