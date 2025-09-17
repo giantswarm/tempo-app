@@ -19,6 +19,6 @@ sources:
   - https://github.com/giantswarm/tempo-app
   - https://github.com/grafana/helm-charts/blob/main/charts/tempo-distributed
 type: application
-version: 0.2.0
+version: 0.3.0
 annotations:
   application.giantswarm.io/team: atlas
