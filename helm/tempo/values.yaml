@@ -208,6 +208,8 @@ tempo:
 
   tempo:
     structuredConfig:
+      usage_report:
+        reporting_enabled: false
       # Support streaming of queries
       stream_over_http_enabled: true
     image:
