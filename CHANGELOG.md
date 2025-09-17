@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix streaming support.
 
-
 ## [0.2.0] - 2025-09-15
 
 ### Changed
