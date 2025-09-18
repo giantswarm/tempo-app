@@ -28,3 +28,21 @@ application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantsw
 application.giantswarm.io/team: atlas
 {{- end }}
 {{- end }}
+
+{{/*
+Tempo Vulture labels
+*/}}
+{{- define "tempo-vulture.labels" -}}
+helm.sh/chart: {{ include "tempo.chart" . }}
+{{ include "tempo-vulture.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+giantswarm.io/service-type: "managed"
+{{- if and .Chart .Chart.Annotations }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | default "atlas" | quote }}
+{{- else }}
+application.giantswarm.io/team: atlas
+{{- end }}
+{{- end }}
