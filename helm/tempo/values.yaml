@@ -253,7 +253,8 @@ vulture:
   # You can make tempo-vulture ineffective by setting this one to "false"
   enabled: true
 
-  extraArgs: []
+  extraArgs:
+  - -tempo-org-id=giantswarm
 
   image:
     # -- Docker image repository
