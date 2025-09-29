@@ -289,7 +289,7 @@ vulture:
 
   tempoAddress:
     # -- the url towards your Tempo distributor
-    push: "http://tempo-distributor:3200"
+    push: "http://tempo-distributor:4317"
     # -- the url towards your Tempo query-frontend
     query: "http://tempo-query-frontend"
 
