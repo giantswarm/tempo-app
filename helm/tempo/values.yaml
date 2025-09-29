@@ -44,10 +44,6 @@ tempo:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: eks.amazonaws.com/compute-type
-              operator: NotIn
-              values:
-              - fargate
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
 
@@ -86,10 +82,6 @@ tempo:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: eks.amazonaws.com/compute-type
-              operator: NotIn
-              values:
-              - fargate
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
 
@@ -129,10 +121,6 @@ tempo:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: eks.amazonaws.com/compute-type
-              operator: NotIn
-              values:
-              - fargate
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
 
@@ -155,10 +143,6 @@ tempo:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: eks.amazonaws.com/compute-type
-              operator: NotIn
-              values:
-              - fargate
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
 
@@ -182,10 +166,6 @@ tempo:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: eks.amazonaws.com/compute-type
-              operator: NotIn
-              values:
-              - fargate
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
 
@@ -268,3 +248,57 @@ tempo:
         # -- GRPC receiver advanced config
       receiverConfig:
         max_recv_msg_size_mib: 1000000000
+
+vulture:
+  # You can make tempo-vulture ineffective by setting this one to "false"
+  enabled: true
+
+  extraArgs:
+  - -tempo-org-id=giantswarm
+
+  image:
+    # -- Docker image repository
+    repository: gsoci.azurecr.io/giantswarm/tempo-vulture
+    tag: 2.9.0-rc.0
+
+  # -- SecurityContext holds container-level security attributes and common container settings
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+
+  # -- podSecurityContext holds pod-level security attributes and common container settings
+  podSecurityContext:
+    fsGroup: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  # PodMonitor configuration
+  podMonitor:
+    # -- If enabled, PodMonitor resources for Prometheus Operator are created
+    enabled: true
+
+  tempoAddress:
+    # -- the url towards your Tempo distributor
+    push: "http://tempo-distributor:4317"
+    # -- the url towards your Tempo query-frontend
+    query: "http://tempo-query-frontend"
+
+  # -- Node affinity configuration to avoid control plane nodes
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add Tempo Vulture as a dependency.
+
 ### Changed
 
 - Update upstream chart to 1.48.0

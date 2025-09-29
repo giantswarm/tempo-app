@@ -8,13 +8,16 @@ dependencies:
     repository: https://grafana.github.io/helm-charts
     condition: tempo.enabled
     alias: tempo
+  - name: tempo-vulture
+    version: 0.9.1
+    repository: https://grafana.github.io/helm-charts
+    condition: vulture.enabled
+    alias: vulture
 home: https://github.com/giantswarm/tempo-app
 icon: https://s.giantswarm.io/app-icons/grafana-tempo/1/light.svg
 maintainers:
   - name: giantswarm/team-atlas
     email: team-atlas@giantswarm.io
-restrictions:
-  namespaceSingleton: true
 sources:
   - https://github.com/giantswarm/tempo-app
   - https://github.com/grafana/helm-charts/blob/main/charts/tempo-distributed
