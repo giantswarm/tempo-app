@@ -252,7 +252,7 @@ tempo:
 # Ingress resources to send traces to Tempo over HTTP and gRPC
 ingress:
   enabled: false
-  className: nginx
+  ingressClassName: nginx
   host: ""
   # HTTP supports sending traces over OpenTelemetry API on /tempo/v1/traces
   # see https://opentelemetry.io/docs/specs/otlp/#otlphttp-request

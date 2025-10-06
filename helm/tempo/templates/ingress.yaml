@@ -17,7 +17,7 @@ metadata:
   labels:
     {{- include "tempo.labels" . | nindent 4 }}
 spec:
-  {{- with .Values.ingress.className }}
+  {{- with .Values.ingress.ingressClassName }}
   ingressClassName: {{ . }}
   {{- end }}
   rules:
@@ -51,7 +51,7 @@ metadata:
   labels:
     {{- include "tempo.labels" . | nindent 4 }}
 spec:
-  {{- with .Values.ingress.className }}
+  {{- with .Values.ingress.ingressClassName }}
   ingressClassName: {{ . }}
   {{- end }}
   rules:
