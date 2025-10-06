@@ -1,4 +1,5 @@
 {{- if and .Values.tempo.enabled .Values.ingress.enabled -}}
+{{ $dict := dict "ctx" . "component" "ingress" }}
 # Ingresses for HTTP and gRPC protocols to send traces to Tempo.
 # Ingresses need to be created separately for HTTP and gRPC protocols because
 # gRPC and HTTP require different ingress configuration like backend protocol and rewrite
@@ -15,7 +16,7 @@ metadata:
   name: {{ include "tempo.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "tempo.labels" . | nindent 4 }}
+    {{- include "tempo.labels" $dict | nindent 4 }}
 spec:
   {{- with .Values.ingress.ingressClassName }}
   ingressClassName: {{ . }}
@@ -49,7 +50,7 @@ metadata:
   name: {{ include "tempo.fullname" . }}-grpc
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "tempo.labels" . | nindent 4 }}
+    {{- include "tempo.labels" $dict | nindent 4 }}
 spec:
   {{- with .Values.ingress.ingressClassName }}
   ingressClassName: {{ . }}
