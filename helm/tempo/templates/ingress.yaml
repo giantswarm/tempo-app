@@ -1,4 +1,4 @@
-{{- if .Values.ingress.enabled -}}
+{{- if and .Values.tempo.enabled .Values.ingress.enabled -}}
 # Ingresses for HTTP and gRPC protocols to send traces to Tempo.
 # Ingresses need to be created separately for HTTP and gRPC protocols because
 # gRPC and HTTP require different ingress configuration like backend protocol and rewrite
