@@ -249,6 +249,39 @@ tempo:
       receiverConfig:
         max_recv_msg_size_mib: 1000000000
 
+# Ingress resources to send traces to Tempo over HTTP and gRPC
+ingress:
+  enabled: false
+  ingressClassName: nginx
+  host: ""
+  # HTTP supports sending traces over OpenTelemetry API on /tempo/v1/traces
+  # see https://opentelemetry.io/docs/specs/otlp/#otlphttp-request
+  http:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    backends:
+    - serviceName: tempo-distributor
+      servicePort: 4318
+      path: /tempo/(.*)
+      pathType: ImplementationSpecific
+  # gRPC supports sending traces over OpenTelemetry and Tempo methods
+  # respectively opentelemetry.* and tempopb.*
+  # Opentelemetry gRPC protocol: https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/trace/v1/trace.proto
+  # Tempo gRPC protocol: https://github.com/grafana/tempo/blob/main/pkg/tempopb/tempo.proto
+  grpc:
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    backends:
+    - serviceName: tempo-distributor
+      servicePort: 4317
+      path: /opentelemetry
+      pathType: ImplementationSpecific
+    - serviceName: tempo-ingester
+      servicePort: 3200
+      path: /tempopb
+      pathType: ImplementationSpecific
+
 vulture:
   # You can make tempo-vulture ineffective by setting this one to "false"
   enabled: true
