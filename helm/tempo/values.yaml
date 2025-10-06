@@ -249,6 +249,32 @@ tempo:
       receiverConfig:
         max_recv_msg_size_mib: 1000000000
 
+ingress:
+  enabled: false
+  className: nginx
+  host: ""
+  http:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    backends:
+    - serviceName: tempo-distributor
+      servicePort: 4318
+      path: /tempo/(.*)
+      pathType: ImplementationSpecific
+  grpc:
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    backends:
+    - serviceName: tempo-distributor
+      servicePort: 4317
+      path: /opentelemetry
+      pathType: ImplementationSpecific
+    - serviceName: tempo-ingester
+      servicePort: 3200
+      path: /tempopb
+      pathType: ImplementationSpecific
+
 vulture:
   # You can make tempo-vulture ineffective by setting this one to "false"
   enabled: true

@@ -1,0 +1,71 @@
+{{- if .Values.ingress.enabled -}}
+# Ingress resource to send traces to Tempo over HTTP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- with .Values.ingress.http.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: {{ include "tempo.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" . | nindent 4 }}
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      {{- range .Values.ingress.http.backends }}
+      - backend:
+          service:
+            name: {{ .serviceName }}
+            port:
+              number: {{ .servicePort }}
+        path: {{ .path }}
+        pathType: {{ .pathType }}
+      {{- end }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: {{ include "tempo.fullname" . }}-tls
+---
+# Ingress resource to send traces to Tempo over gRPC protocol
+# Note: /opentelemetry and /tempopb paths cannot be changed due to how gRPC works
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- with .Values.ingress.grpc.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: {{ include "tempo.fullname" . }}-grpc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" . | nindent 4 }}
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      {{- range .Values.ingress.grpc.backends }}
+      - backend:
+          service:
+            name: {{ .serviceName }}
+            port:
+              number: {{ .servicePort }}
+        path: {{ .path }}
+        pathType: {{ .pathType }}
+      {{- end }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: {{ include "tempo.fullname" . }}-grpc-tls
+{{- end }}
