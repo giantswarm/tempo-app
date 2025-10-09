@@ -84,6 +84,8 @@ tempo:
           - matchExpressions:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
+    persistence:
+      enabled: true
 
   memcached:
     enabled: true
@@ -103,6 +105,7 @@ tempo:
 
   metricsGenerator:
     enabled: true
+    kind: Statefulset
     affinity: |
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -123,6 +126,8 @@ tempo:
           - matchExpressions:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
+    persistence:
+      enabled: true
 
   querier:
     affinity: |
