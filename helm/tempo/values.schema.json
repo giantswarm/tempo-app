@@ -30,6 +30,89 @@
                 }
             }
         },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "grpc": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "properties": {
+                                "nginx.ingress.kubernetes.io/backend-protocol": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/use-regex": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "backends": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "path": {
+                                        "type": "string"
+                                    },
+                                    "pathType": {
+                                        "type": "string"
+                                    },
+                                    "serviceName": {
+                                        "type": "string"
+                                    },
+                                    "servicePort": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "host": {
+                    "type": "string"
+                },
+                "http": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "properties": {
+                                "nginx.ingress.kubernetes.io/rewrite-target": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "backends": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "path": {
+                                        "type": "string"
+                                    },
+                                    "pathType": {
+                                        "type": "string"
+                                    },
+                                    "serviceName": {
+                                        "type": "string"
+                                    },
+                                    "servicePort": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "ingressClassName": {
+                    "type": "string"
+                }
+            }
+        },
         "tempo": {
             "type": "object",
             "properties": {
@@ -117,6 +200,14 @@
                     "properties": {
                         "affinity": {
                             "type": "string"
+                        },
+                        "persistence": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
                         }
                     }
                 },
@@ -176,6 +267,17 @@
                         },
                         "enabled": {
                             "type": "boolean"
+                        },
+                        "kind": {
+                            "type": "string"
+                        },
+                        "persistence": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
                         }
                     }
                 },
@@ -461,6 +563,9 @@
                     "type": "object",
                     "properties": {
                         "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
                             "type": "string"
                         }
                     }

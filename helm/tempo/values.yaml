@@ -105,7 +105,7 @@ tempo:
 
   metricsGenerator:
     enabled: true
-    kind: Statefulset
+    kind: StatefulSet
     affinity: |
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
