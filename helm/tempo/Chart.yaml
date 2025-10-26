@@ -9,7 +9,7 @@ dependencies:
     condition: tempo.enabled
     alias: tempo
   - name: tempo-vulture
-    version: 0.9.1
+    version: 0.10.0
     repository: https://grafana.github.io/helm-charts
     condition: vulture.enabled
     alias: vulture
