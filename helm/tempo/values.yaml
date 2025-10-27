@@ -297,7 +297,6 @@ vulture:
   image:
     # -- Docker image repository
     repository: gsoci.azurecr.io/giantswarm/tempo-vulture
-    tag: 2.9.0-rc.0
 
   # -- SecurityContext holds container-level security attributes and common container settings
   securityContext:
