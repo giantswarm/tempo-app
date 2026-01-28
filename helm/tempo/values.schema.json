@@ -113,6 +113,73 @@
                 }
             }
         },
+        "routes": {
+            "type": "object",
+            "properties": {
+                "gateway": {
+                    "type": "object",
+                    "properties": {
+                        "additionalRules": {
+                            "type": "array"
+                        },
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "filters": {
+                            "type": "array"
+                        },
+                        "hostnames": {
+                            "type": "array"
+                        },
+                        "kind": {
+                            "type": "string"
+                        },
+                        "labels": {
+                            "type": "object"
+                        },
+                        "matches": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "path": {
+                                        "type": "object",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "value": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "parentRefs": {
+                            "type": "array"
+                        },
+                        "securityPolicy": {
+                            "type": "object",
+                            "properties": {
+                                "annotations": {
+                                    "type": "object"
+                                },
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "labels": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "tempo": {
             "type": "object",
             "properties": {
@@ -563,9 +630,6 @@
                     "type": "object",
                     "properties": {
                         "repository": {
-                            "type": "string"
-                        },
-                        "tag": {
                             "type": "string"
                         }
                     }
