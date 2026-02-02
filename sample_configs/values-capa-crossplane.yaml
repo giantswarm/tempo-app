@@ -1,0 +1,71 @@
+# Example configuration for CAPA (AWS) with Crossplane-managed S3 storage
+# This demonstrates the two-phase migration from manual bucket management to Crossplane
+
+global:
+  dnsService: "coredns"
+  dnsNamespace: "kube-system"
+
+## Crossplane configuration
+crossplane:
+  enabled: true
+  observeOnly: true # Crossplane will only watch, not manage
+  provider: aws
+  region: "eu-west-1"
+  clusterName: "my-installation"  # MUST match your AWSCluster CR name
+  clusterNamespace: org-giantswarm
+  tags:
+    - key: team
+      value: atlas
+    - key: environment
+      value: production
+  aws:
+    enabled: true
+    bucket:
+      name: "giantswarm-my-installation-tempo"
+      lifecycleDays: 100
+    iam:
+      enabled: true
+
+tempo:
+  storage:
+    trace:
+      backend: s3
+      s3:
+        bucket: giantswarm-my-installation-tempo
+        region: eu-west-1
+        # No credentials needed - IRSA handles authentication via IAM role
+
+  # Service account - IAM role ARN annotation is managed by Tempo subchart
+  # when crossplane is enabled, it will use the IAM role created by Crossplane
+  serviceAccount:
+    create: true
+    name: tempo
+    annotations:
+      # This role ARN is created by Crossplane when aws.iam.enabled: true
+      # Replace ${AWS_ACCOUNT_ID} with your actual AWS account ID
+      # Or use the pattern: giantswarm-{installationName}-tempo
+      eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/giantswarm-my-installation-tempo"
+
+  # Autoscaling configuration
+  gateway:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      targetCPUUtilizationPercentage: 90
+
+  distributor:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      targetCPUUtilizationPercentage: 60
+
+  # Monitoring
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+    grafanaAgent:
+      enabled: false
+
+  # Disable test pods
+  test:
+    enabled: false
