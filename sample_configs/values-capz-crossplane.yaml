@@ -1,0 +1,114 @@
+# Example configuration for CAPZ (Azure) with Crossplane-managed Storage
+# This demonstrates the two-phase migration from manual storage management to Crossplane
+
+global:
+  dnsService: "coredns"
+  dnsNamespace: "kube-system"
+
+tempo:
+  enabled: true
+
+  distributor:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      targetCPUUtilizationPercentage: 60
+
+  gateway:
+    enabled: true
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      targetCPUUtilizationPercentage: 90
+
+  ingester:
+    persistence:
+      enabled: true
+
+  memcached:
+    enabled: true
+
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+      clusterLabel: "tempo"
+    grafanaAgent:
+      enabled: false
+    prometheusRule:
+      enabled: false
+
+  metricsGenerator:
+    enabled: true
+    kind: StatefulSet
+    persistence:
+      enabled: true
+
+  # Service account - no special annotations needed for Azure storage account keys
+  serviceAccount:
+    create: true
+    name: tempo
+
+  tempo:
+    storage:
+      # Single container name for all Tempo storage
+      # Note: On Azure, Crossplane creates both a Storage Account and a Blob Container.
+      # The storage account name is sanitized (alphanumeric, max 24 chars).
+      trace:
+        backend: azure
+        azure:
+          # Storage account name will be auto-generated (sanitized version of container name)
+          # storage_account_name: giantswarmmyinstallati (example - 24 char limit, alphanumeric only)
+          # Authentication via storage account keys (no workload identity needed)
+          storage_account_name: ""  # Will be set by connection secret
+          storage_account_key: ""   # Will be set by connection secret
+          # Blob container name (matches the single container)
+          container_name: giantswarm-my-installation-tempo
+
+  # Disable test pods
+  test:
+    enabled: false
+
+vulture:
+  enabled: true
+
+  tempoAddress:
+    push: "http://tempo-distributor:4317"
+    query: "http://tempo-query-frontend"
+
+  podMonitor:
+    enabled: true
+
+## The chart automatically detects if your cluster is private by checking
+## the cluster user-values ConfigMap for global.connectivity.network.mode == "private"
+## For private clusters, it will:
+## - Disable public network access on storage accounts
+## - Create private endpoints
+## - Create private DNS zones (privatelink.blob.core.windows.net)
+## - Create virtual network links
+## - Link to your cluster's VNet and subnet
+crossplane:
+  enabled: true
+  provider: azure
+  # Azure location (e.g., westeurope, eastus, germanywestcentral)
+  region: westeurope
+  # MUST match your AzureCluster CR name
+  clusterName: "my-installation"
+  clusterNamespace: org-giantswarm
+  # Crossplane ProviderConfig for Azure
+  providerConfigRef: default
+  # Observe mode: Crossplane will only watch, not manage
+  observeOnly: true
+  # Additional tags to apply to all storage resources
+  tags:
+    - key: team
+      value: atlas
+    - key: environment
+      value: production
+
+  azure:
+    enabled: true
+    container:
+      # Single container name for all Tempo storage
+      name: giantswarm-my-installation-tempo
+      # Number of days to retain logs before expiration
+      lifecycleDays: 100

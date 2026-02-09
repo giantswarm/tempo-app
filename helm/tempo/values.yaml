@@ -407,11 +407,11 @@ vulture:
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
 
-# -- Crossplane configuration for automated infrastructure provisioning
+# -- Crossplane configuration for cloud resource provisioning
 crossplane:
-  # -- Enable Crossplane resources
+  # -- Enable automated storage provisioning via Crossplane
   enabled: false
-  # -- Crossplane provider (e.g., aws, azure)
+  # -- Cloud provider type: 'aws' for CAPA, 'azure' for CAPZ
   provider: aws
   # -- Crossplane ProviderConfig name
   providerConfigRef: "default"
@@ -428,16 +428,29 @@ crossplane:
   tags: []
   # - key: team
   #   value: atlas
+
+  # -- AWS-specific configuration
   aws:
-    # -- Enable AWS Crossplane resources
+    # -- Enable AWS resources (S3, IAM)
     enabled: false
-    # -- Bucket configuration for Tempo storage
+    # -- S3 Bucket configuration for Tempo storage
     bucket:
       # -- Bucket name for Tempo storage
       name: ""
-      # -- Lifecycle expiration in days
+      # -- Number of days to retain logs before expiration
       lifecycleDays: 100
     # -- IAM Role configuration for IRSA
     iam:
       # -- Enable IAM role creation via Crossplane
       enabled: true
+
+  # -- Azure-specific configuration
+  azure:
+    # -- Enable Azure resources (Storage Account, Container)
+    enabled: false
+    # -- Storage container configuration
+    container:
+      # -- Container name for Tempo storage
+      name: ""
+      # -- Number of days to retain logs before expiration (optional, omit to disable lifecycle)
+      lifecycleDays: 100

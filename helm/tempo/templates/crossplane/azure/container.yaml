@@ -1,0 +1,36 @@
+{{- if and .Values.tempo.enabled .Values.crossplane.enabled (include "tempo.crossplane.isAzure" .) .Values.crossplane.azure.enabled }}
+{{- $tags := include "tempo.crossplane.tags" . | fromYaml }}
+{{- $containerName := .Values.crossplane.azure.container.name }}
+---
+apiVersion: storage.azure.upbound.io/v1beta1
+kind: Container
+metadata:
+  name: {{ $containerName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+  annotations:
+    crossplane.io/external-name: {{ $containerName }}
+spec:
+  managementPolicies:
+    {{- if .Values.crossplane.observeOnly }}
+    - Observe
+    {{- else }}
+    - "*"
+    {{- end }}
+  forProvider:
+    storageAccountNameSelector:
+      matchLabels:
+        app.kubernetes.io/component: storage
+        app.kubernetes.io/name: {{ include "tempo.name" . }}
+    containerAccessType: private
+    {{- if $tags }}
+    metadata:
+      {{- range $key, $value := $tags }}
+      {{ $key }}: {{ $value | quote }}
+      {{- end }}
+    {{- end }}
+  providerConfigRef:
+    name: {{ .Values.crossplane.providerConfigRef }}
+{{- end }}
