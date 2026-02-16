@@ -1,11 +1,10 @@
-{{- if .Values.routes.gateway.enabled -}}
-{{- $route := .Values.routes.gateway }}
-
+{{- range $name, $route := .Values.routes }}
+{{- if $route.enabled }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: {{ $route.kind | default "HTTPRoute" }}
 metadata:
-  name: {{ include "tempo.resourceName" (dict "ctx" $ "component" "gateway") }}
+  name: {{ include "tempo.fullname" $ }}-{{ $name }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
@@ -30,8 +29,7 @@ spec:
     {{- tpl (toYaml $route.additionalRules) $ | nindent 4 }}
     {{- end }}
     - backendRefs:
-        - name: {{ include "tempo.resourceName" (dict "ctx" $ "component" "gateway") }}
-          port: 4318
+        {{- toYaml $route.backendRefs | nindent 8 }}
       {{- with $route.filters }}
       filters:
         {{- toYaml . | nindent 8 }}
@@ -47,7 +45,7 @@ spec:
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: {{ include "tempo.resourceName" (dict "ctx" $ "component" "gateway") }}
+  name: {{ include "tempo.fullname" $ }}-{{ $name }}
   labels:
     {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
     {{- with $policy.labels }}
@@ -61,7 +59,7 @@ spec:
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: {{ $route.kind | default "HTTPRoute" }}
-      name: {{ include "tempo.resourceName" (dict "ctx" $ "component" "gateway") }}
+      name: {{ include "tempo.fullname" $ }}-{{ $name }}
   {{- with $policy.basicAuth }}
   basicAuth:
     {{- toYaml . | nindent 4 }}
@@ -86,6 +84,7 @@ spec:
   authorization:
     {{- toYaml . | nindent 4 }}
   {{ end }}
-{{ end }}
+{{- end }}
 
+{{- end }}
 {{- end }}

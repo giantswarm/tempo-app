@@ -1,6 +1,57 @@
 {
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
+    "$defs": {
+        "route": {
+            "type": "object",
+            "properties": {
+                "additionalRules": {
+                    "type": "array"
+                },
+                "annotations": {
+                    "type": "object"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "filters": {
+                    "type": "array"
+                },
+                "hostnames": {
+                    "type": "array"
+                },
+                "kind": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "object"
+                },
+                "matches": {
+                    "type": "array"
+                },
+                "parentRefs": {
+                    "type": "array"
+                },
+                "backendRefs": {
+                    "type": "array"
+                },
+                "securityPolicy": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "labels": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
     "properties": {
         "global": {
             "type": "object",
@@ -116,68 +167,8 @@
         "routes": {
             "type": "object",
             "properties": {
-                "gateway": {
-                    "type": "object",
-                    "properties": {
-                        "additionalRules": {
-                            "type": "array"
-                        },
-                        "annotations": {
-                            "type": "object"
-                        },
-                        "enabled": {
-                            "type": "boolean"
-                        },
-                        "filters": {
-                            "type": "array"
-                        },
-                        "hostnames": {
-                            "type": "array"
-                        },
-                        "kind": {
-                            "type": "string"
-                        },
-                        "labels": {
-                            "type": "object"
-                        },
-                        "matches": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "path": {
-                                        "type": "object",
-                                        "properties": {
-                                            "type": {
-                                                "type": "string"
-                                            },
-                                            "value": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "parentRefs": {
-                            "type": "array"
-                        },
-                        "securityPolicy": {
-                            "type": "object",
-                            "properties": {
-                                "annotations": {
-                                    "type": "object"
-                                },
-                                "enabled": {
-                                    "type": "boolean"
-                                },
-                                "labels": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
+                "https": { "$ref": "#/$defs/route" },
+                "grpc": { "$ref": "#/$defs/route" }
             }
         },
         "tempo": {
