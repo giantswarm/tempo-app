@@ -18,7 +18,7 @@ global:
   dnsNamespace: 'kube-system'
 
 routes:
-  gateway:
+  https:
     enabled: false
     # -- Set the route kind
     # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
@@ -30,10 +30,45 @@ routes:
     hostnames: []
     parentRefs: []
 
+    backendRefs:
+      - name: tempo-distributor
+        port: 4318
+
     matches:
       - path:
           type: PathPrefix
           value: /
+
+    ## Filters define the filters that are applied to requests that match this rule.
+    filters: []
+
+    ## Additional custom rules that can be added to the route
+    additionalRules: []
+
+    securityPolicy:
+      enabled: false
+      annotations: {}
+      labels: {}
+      # basicAuth:
+      #   users:
+      #     name: <secret_name>
+
+  grpc:
+    enabled: false
+    # -- Set the route kind
+    kind: GRPCRoute
+
+    annotations: {}
+    labels: {}
+
+    hostnames: []
+    parentRefs: []
+
+    backendRefs:
+      - name: tempo-distributor
+        port: 4317
+
+    matches: []
 
     ## Filters define the filters that are applied to requests that match this rule.
     filters: []
