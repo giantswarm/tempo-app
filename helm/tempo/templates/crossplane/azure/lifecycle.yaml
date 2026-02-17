@@ -1,0 +1,38 @@
+{{- if and .Values.tempo.enabled .Values.crossplane.enabled (include "tempo.crossplane.isAzure" .) .Values.crossplane.azure.enabled .Values.crossplane.azure.container.lifecycleDays }}
+{{- $containerName := .Values.crossplane.azure.container.name }}
+{{- $storageAccountName := include "tempo.crossplane.azure.storageAccountName" (dict "containerName" $containerName) }}
+---
+apiVersion: storage.azure.upbound.io/v1beta1
+kind: ManagementPolicy
+metadata:
+  name: {{ $storageAccountName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+  annotations:
+    crossplane.io/external-name: {{ $storageAccountName }}-lifecycle
+spec:
+  managementPolicies:
+    {{- if .Values.crossplane.observeOnly }}
+    - Observe
+    {{- else }}
+    - "*"
+    {{- end }}
+  forProvider:
+    storageAccountIdSelector:
+      matchLabels:
+        app.kubernetes.io/component: storage
+        app.kubernetes.io/name: {{ include "tempo.name" . }}
+    rule:
+      - name: DeleteOldBlobs
+        enabled: true
+        filters:
+          - blobTypes:
+              - blockBlob
+        actions:
+          - baseBlob:
+              - deleteBlobAfterDaysSinceModificationGreaterThan: {{ .Values.crossplane.azure.container.lifecycleDays }}
+  providerConfigRef:
+    name: {{ .Values.crossplane.providerConfigRef }}
+{{- end }}
