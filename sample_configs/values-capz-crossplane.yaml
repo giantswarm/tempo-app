@@ -78,16 +78,17 @@ vulture:
   podMonitor:
     enabled: true
 
-## The chart automatically detects if your cluster is private by checking
-## the cluster user-values ConfigMap for global.connectivity.network.mode == "private"
-## For private clusters, it will:
+## Crossplane Configuration
+## The chart automatically detects if your cluster is private via the .private flag
+## For private clusters (.private: true), it will:
 ## - Disable public network access on storage accounts
 ## - Create private endpoints
-## - Create private DNS zones (privatelink.blob.core.windows.net)
-## - Create virtual network links
+## - Reference the cluster-wide private DNS zone ({clusterName}-privatelink.blob.core.windows.net)
 ## - Link to your cluster's VNet and subnet
 crossplane:
   enabled: true
+  # Set to true for private clusters (no public endpoint, access via private endpoint only)
+  private: false
   provider: azure
   # Azure location (e.g., westeurope, eastus, germanywestcentral)
   region: westeurope
@@ -107,8 +108,14 @@ crossplane:
 
   azure:
     enabled: true
+    # Azure Resource Group name (REQUIRED)
+    # This should match your cluster's resource group
+    resourceGroup: ""
+    # Azure Subscription ID (REQUIRED)
+    # Format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    subscriptionId: ""
     container:
       # Single container name for all Tempo storage
       name: giantswarm-my-installation-tempo
-      # Number of days to retain logs before expiration
+      # Number of days to retain traces before expiration
       lifecycleDays: 100

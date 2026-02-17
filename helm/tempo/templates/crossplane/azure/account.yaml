@@ -2,7 +2,6 @@
 {{- $tags := include "tempo.crossplane.tags" . | fromYaml }}
 {{- $containerName := .Values.crossplane.azure.container.name }}
 {{- $storageAccountName := include "tempo.crossplane.azure.storageAccountName" (dict "containerName" $containerName) }}
-{{- $isPrivate := include "tempo.crossplane.azure.isPrivateCluster" . | eq "true" }}
 ---
 apiVersion: storage.azure.upbound.io/v1beta2
 kind: Account
@@ -22,7 +21,7 @@ spec:
     - "*"
     {{- end }}
   forProvider:
-    resourceGroupName: {{ include "tempo.crossplane.azure.resourceGroup" . }}
+    resourceGroupName: {{ .Values.crossplane.azure.resourceGroup }}
     location: {{ .Values.crossplane.region }}
     accountKind: BlobStorage
     accountReplicationType: LRS
@@ -30,7 +29,7 @@ spec:
     allowBlobPublicAccess: false
     enableHttpsTrafficOnly: true
     minTlsVersion: TLS1_2
-    publicNetworkAccessEnabled: {{ not $isPrivate }}
+    publicNetworkAccessEnabled: {{ not .Values.crossplane.private }}
     {{- if $tags }}
     tags:
       {{- range $key, $value := $tags }}
