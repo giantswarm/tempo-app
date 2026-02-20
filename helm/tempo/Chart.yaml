@@ -5,12 +5,12 @@ description: Helm chart for Grafana Tempo in microservice mode
 dependencies:
   - name: tempo-distributed
     version: 1.61.3
-    repository: https://grafana.github.io/helm-charts
+    repository: https://grafana-community.github.io/helm-charts
     condition: tempo.enabled
     alias: tempo
   - name: tempo-vulture
     version: 0.10.0
-    repository: https://grafana.github.io/helm-charts
+    repository: https://grafana-community.github.io/helm-charts
     condition: vulture.enabled
     alias: vulture
 home: https://github.com/giantswarm/tempo-app
@@ -20,7 +20,7 @@ maintainers:
     email: team-atlas@giantswarm.io
 sources:
   - https://github.com/giantswarm/tempo-app
-  - https://github.com/grafana/helm-charts/blob/main/charts/tempo-distributed
+  - https://github.com/grafana-community/helm-charts/blob/main/charts/tempo-distributed
 type: application
 version: 0.11.0
 annotations:
