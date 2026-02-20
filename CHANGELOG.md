@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade Tempo chart from 1.58.0 to 1.61.3
+
 ## [0.11.0] - 2026-02-17
 
 ### Changed
