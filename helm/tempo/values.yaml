@@ -396,7 +396,7 @@ vulture:
     # -- the url towards your Tempo distributor
     push: "http://tempo-distributor:4317"
     # -- the url towards your Tempo query-frontend
-    query: "http://tempo-query-frontend"
+    query: "http://tempo-query-frontend:3200"
 
   # -- Node affinity configuration to avoid control plane nodes
   affinity:
