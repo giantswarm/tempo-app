@@ -111,9 +111,6 @@ crossplane:
     # Azure Resource Group name (REQUIRED)
     # This should match your cluster's resource group
     resourceGroup: ""
-    # Azure Subscription ID (REQUIRED)
-    # Format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    subscriptionId: ""
     container:
       # Single container name for all Tempo storage
       name: giantswarm-my-installation-tempo

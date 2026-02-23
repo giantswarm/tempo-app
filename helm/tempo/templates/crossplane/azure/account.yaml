@@ -2,6 +2,7 @@
 {{- $tags := include "tempo.crossplane.tags" . | fromYaml }}
 {{- $containerName := .Values.crossplane.azure.container.name }}
 {{- $storageAccountName := include "tempo.crossplane.azure.storageAccountName" (dict "containerName" $containerName) }}
+{{- $isPrivate := .Values.crossplane.private }}
 ---
 apiVersion: storage.azure.upbound.io/v1beta2
 kind: Account
@@ -23,13 +24,13 @@ spec:
   forProvider:
     resourceGroupName: {{ .Values.crossplane.azure.resourceGroup }}
     location: {{ .Values.crossplane.region }}
-    accountKind: BlobStorage
+    accountKind: StorageV2
     accountReplicationType: LRS
     accountTier: Standard
     allowBlobPublicAccess: false
     enableHttpsTrafficOnly: true
     minTlsVersion: TLS1_2
-    publicNetworkAccessEnabled: {{ not .Values.crossplane.private }}
+    publicNetworkAccessEnabled: {{ not $isPrivate }}
     {{- if $tags }}
     tags:
       {{- range $key, $value := $tags }}
