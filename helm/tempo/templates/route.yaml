@@ -1,3 +1,4 @@
+{{- if .Values.tempo.enabled  -}}
 {{- range $name, $route := .Values.routes }}
 {{- if $route.enabled }}
 ---
@@ -86,5 +87,6 @@ spec:
   {{ end }}
 {{- end }}
 
+{{- end }}
 {{- end }}
 {{- end }}
