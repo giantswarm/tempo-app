@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 2.9.0
+appVersion: 2.10.1
 name: tempo
 description: Helm chart for Grafana Tempo in microservice mode
 dependencies:
