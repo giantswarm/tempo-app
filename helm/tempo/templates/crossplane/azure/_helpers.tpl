@@ -16,12 +16,14 @@ Azure storage account names must be:
 Get Azure Subscription ID from AzureCluster CR
 */}}
 {{- define "tempo.crossplane.azure.subscriptionId" -}}
-{{- $clusterName := .Values.crossplane.clusterName -}}
-{{- $clusterNamespace := .Values.crossplane.clusterNamespace -}}
-{{- $subscriptionId := "" -}}
-{{- $azureCluster := lookup "infrastructure.cluster.x-k8s.io/v1beta1" "AzureCluster" $clusterNamespace $clusterName -}}
-{{- if $azureCluster -}}
-  {{- $subscriptionId = $azureCluster.spec.subscriptionID -}}
+{{- $subscriptionId := .Values.crossplane.azure.subscriptionId | default "" -}}
+{{- if not $subscriptionId -}}
+  {{- $clusterName := .Values.crossplane.clusterName -}}
+  {{- $clusterNamespace := .Values.crossplane.clusterNamespace -}}
+  {{- $azureCluster := lookup "infrastructure.cluster.x-k8s.io/v1beta1" "AzureCluster" $clusterNamespace $clusterName -}}
+  {{- if $azureCluster -}}
+    {{- $subscriptionId = $azureCluster.spec.subscriptionID -}}
+  {{- end -}}
 {{- end -}}
 {{- $subscriptionId -}}
 {{- end -}}
