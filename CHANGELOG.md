@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `clusterProvider` field to support scenarios where cluster provider differs from storage provider (e.g., vsphere cluster with azure storage)
 - Make Azure subscription ID overridable via `crossplane.azure.subscriptionId` value (falls back to AzureCluster CR lookup if not provided)
 
+## [0.13.0] - 2026-03-05
+
 ### Changed
 
 - Upgrade Tempo chart from to 1.61.3 to 2.4.2
@@ -152,7 +154,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initialize tempo app
 
-[Unreleased]: https://github.com/giantswarm/tempo-app/compare/v0.12.1...HEAD
+[Unreleased]: https://github.com/giantswarm/tempo-app/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/giantswarm/tempo-app/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/giantswarm/tempo-app/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/giantswarm/tempo-app/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/giantswarm/tempo-app/compare/v0.11.0...v0.11.1
