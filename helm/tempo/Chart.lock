@@ -1,9 +1,9 @@
 dependencies:
 - name: tempo-distributed
   repository: https://grafana-community.github.io/helm-charts
-  version: 2.4.2
+  version: 2.5.1
 - name: tempo-vulture
   repository: https://grafana-community.github.io/helm-charts
   version: 0.12.6
-digest: sha256:f17502b70607046d6f5dbc1dc0436663fff94de3064233f58b223a146c0ff312
-generated: "2026-03-03T18:31:51.789853764+01:00"
+digest: sha256:9e858da9775acdc7942599914b0b2b462d1bd34f29ec983fd25d89414e099afe
+generated: "2026-03-07T10:02:48.857277538Z"
