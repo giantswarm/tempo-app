@@ -1,0 +1,6 @@
+appName: tempo
+repoName: tempo-app
+appCatalog: default
+providers:
+- capa
+isMCTest: true
