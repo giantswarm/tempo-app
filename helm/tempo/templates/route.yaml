@@ -87,6 +87,56 @@ spec:
   {{ end }}
 {{- end }}
 
+{{- if and $route.backendTrafficPolicy $route.backendTrafficPolicy.enabled }}
+{{ $trafficPolicy := $route.backendTrafficPolicy }}
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  labels:
+    {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
+    {{- with $trafficPolicy.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $trafficPolicy.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  name: {{ include "tempo.fullname" $ }}-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: {{ $route.kind | default "HTTPRoute" }}
+    name: {{ include "tempo.fullname" $ }}-{{ $name }}
+  requestBuffer:
+    limit: {{ $trafficPolicy.requestBuffer.limit | default "50Mi" }}
+{{- end }}
+
+{{- if and $route.httpRouteFilter $route.httpRouteFilter.enabled }}
+{{ $filter := $route.httpRouteFilter }}
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: HTTPRouteFilter
+metadata:
+  labels:
+    {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
+    {{- with $filter.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $filter.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  name: {{ include "tempo.fullname" $ }}-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  {{- with $filter.directResponse }}
+  directResponse:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+
 {{- end }}
 {{- end }}
 {{- end }}

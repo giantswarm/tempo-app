@@ -53,6 +53,24 @@ routes:
       #   users:
       #     name: <secret_name>
 
+    backendTrafficPolicy:
+      enabled: false
+      annotations: {}
+      labels: {}
+      requestBuffer:
+        limit: 50Mi
+
+    httpRouteFilter:
+      enabled: false
+      annotations: {}
+      labels: {}
+      directResponse:
+        contentType: text/plain
+        statusCode: 400
+        body:
+          type: Inline
+          inline: "Bad Request"
+
   grpc:
     enabled: false
     # -- Set the route kind
@@ -83,6 +101,13 @@ routes:
       # basicAuth:
       #   users:
       #     name: <secret_name>
+
+    backendTrafficPolicy:
+      enabled: false
+      annotations: {}
+      labels: {}
+      requestBuffer:
+        limit: 50Mi
 
 tempo:
   # You can make the whole chart ineffective by setting this one to "false"

@@ -48,6 +48,40 @@
                             "type": "object"
                         }
                     }
+                },
+                "backendTrafficPolicy": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "labels": {
+                            "type": "object"
+                        },
+                        "requestBuffer": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "httpRouteFilter": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "labels": {
+                            "type": "object"
+                        },
+                        "directResponse": {
+                            "type": "object"
+                        }
+                    }
                 }
             }
         }
