@@ -57,8 +57,9 @@ routes:
       enabled: false
       annotations: {}
       labels: {}
-      requestBuffer:
-        limit: 50Mi
+      # spec accepts any Envoy Gateway BackendTrafficPolicy spec fields:
+      # https://gateway.envoyproxy.io/docs/api/extension_types/#backendtrafficpolicyspec
+      spec: {}
 
     httpRouteFilter:
       enabled: false
@@ -106,8 +107,9 @@ routes:
       enabled: false
       annotations: {}
       labels: {}
-      requestBuffer:
-        limit: 50Mi
+      # spec accepts any Envoy Gateway BackendTrafficPolicy spec fields:
+      # https://gateway.envoyproxy.io/docs/api/extension_types/#backendtrafficpolicyspec
+      spec: {}
 
 tempo:
   # You can make the whole chart ineffective by setting this one to "false"

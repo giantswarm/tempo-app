@@ -61,7 +61,7 @@
                         "labels": {
                             "type": "object"
                         },
-                        "requestBuffer": {
+                        "spec": {
                             "type": "object"
                         }
                     }

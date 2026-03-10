@@ -109,8 +109,9 @@ spec:
   - group: gateway.networking.k8s.io
     kind: {{ $route.kind | default "HTTPRoute" }}
     name: {{ include "tempo.fullname" $ }}-{{ $name }}
-  requestBuffer:
-    limit: {{ $trafficPolicy.requestBuffer.limit | default "50Mi" }}
+  {{- with $trafficPolicy.spec }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
 {{- end }}
 
 {{- if and $route.httpRouteFilter $route.httpRouteFilter.enabled }}
