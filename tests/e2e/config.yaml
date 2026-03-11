@@ -1,0 +1,5 @@
+appName: tempo
+repoName: tempo-app
+appCatalog: control-plane
+providers:
+- capa

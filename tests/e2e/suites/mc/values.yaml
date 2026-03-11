@@ -1,0 +1,20 @@
+# Configure Tempo with MinIO as a self-contained object store backend for testing.
+# This avoids requiring external cloud storage credentials.
+tempo:
+  storage:
+    trace:
+      backend: s3
+      s3:
+        bucket: tempo-traces
+        endpoint: http://tempo-minio:9000
+        access_key_id: lgtmpassword
+        secret_access_key: lgtmpassword
+        insecure: true
+  minio:
+    enabled: true
+    rootUser: lgtmpassword
+    rootPassword: lgtmpassword
+    buckets:
+      - name: tempo-traces
+        policy: none
+        purge: false
