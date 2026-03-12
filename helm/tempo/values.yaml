@@ -53,6 +53,25 @@ routes:
       #   users:
       #     name: <secret_name>
 
+    backendTrafficPolicy:
+      enabled: false
+      annotations: {}
+      labels: {}
+      # spec accepts any Envoy Gateway BackendTrafficPolicy spec fields:
+      # https://gateway.envoyproxy.io/docs/api/extension_types/#backendtrafficpolicyspec
+      spec: {}
+
+    httpRouteFilter:
+      enabled: false
+      annotations: {}
+      labels: {}
+      directResponse:
+        contentType: text/plain
+        statusCode: 400
+        body:
+          type: Inline
+          inline: "Bad Request"
+
   grpc:
     enabled: false
     # -- Set the route kind
@@ -83,6 +102,14 @@ routes:
       # basicAuth:
       #   users:
       #     name: <secret_name>
+
+    backendTrafficPolicy:
+      enabled: false
+      annotations: {}
+      labels: {}
+      # spec accepts any Envoy Gateway BackendTrafficPolicy spec fields:
+      # https://gateway.envoyproxy.io/docs/api/extension_types/#backendtrafficpolicyspec
+      spec: {}
 
 tempo:
   # You can make the whole chart ineffective by setting this one to "false"

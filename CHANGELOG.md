@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `httpRouteFilter` support to Gateway API routes, enabling `HTTPRouteFilter` resources for tenant header enforcement (X-Scope-OrgID).
+- Add `backendTrafficPolicy` support to Gateway API routes. Uses a free-form `spec` object to allow any Envoy Gateway BackendTrafficPolicy fields (timeout, requestBuffer, circuitBreaker, etc.) rather than hardcoding a single field.
+
 ## [0.14.0] - 2026-03-09
 
 ### Added
