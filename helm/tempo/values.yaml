@@ -120,6 +120,12 @@ tempo:
       enabled: true
       minReplicas: 2
       targetCPUUtilizationPercentage: 60
+    resources:
+      limits:
+        memory: 300Mi
+      requests:
+        memory: 100Mi
+        cpu: 50m
     affinity: |
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -387,6 +393,7 @@ vulture:
 
   extraArgs:
   - -tempo-org-id=giantswarm
+  - -tempo-retention-duration=24h0m0s
 
   image:
     # -- Docker image repository
