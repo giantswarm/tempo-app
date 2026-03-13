@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- requests and limits for distributor - fixes its HPA
+
+### Fixed
+
+- vulture search window reduced to 24h to avoid querying traces out of retention period
+
 ## [0.15.0] - 2026-03-12
 
 ### Added
