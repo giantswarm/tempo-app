@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade Tempo chart from to 2.4.2 to 2.6.2
+    - Upgrades Tempo from 2.10.1 to 2.10.2
+
 ### Added
 
 - requests and limits for distributor - fixes its HPA
