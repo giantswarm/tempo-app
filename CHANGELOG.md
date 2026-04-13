@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade Tempo Vulture chart from 0.12.7 to 0.12.8
+- Upgrade Tempo Vulture chart from 0.12.7 to 0.12.9
+- Upgrade Tempo chart from to 2.6.2 to 2.14.3
+  - Upgrades Tempo from 2.10.2 to 2.10.4
 
 ## [0.15.1] - 2026-03-16
 
