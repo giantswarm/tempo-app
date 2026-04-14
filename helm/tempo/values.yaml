@@ -17,34 +17,8 @@ global:
   # -- configures DNS service namespace
   dnsNamespace: 'kube-system'
 
-routes:
+envoyExtensions:
   https:
-    enabled: false
-    # -- Set the route kind
-    # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
-    kind: HTTPRoute
-
-    annotations: {}
-    labels: {}
-
-    hostnames: []
-    parentRefs: []
-
-    backendRefs:
-      - name: tempo-distributor
-        port: 4318
-
-    matches:
-      - path:
-          type: PathPrefix
-          value: /
-
-    ## Filters define the filters that are applied to requests that match this rule.
-    filters: []
-
-    ## Additional custom rules that can be added to the route
-    additionalRules: []
-
     securityPolicy:
       enabled: false
       annotations: {}
@@ -52,7 +26,6 @@ routes:
       # basicAuth:
       #   users:
       #     name: <secret_name>
-
     backendTrafficPolicy:
       enabled: false
       annotations: {}
@@ -60,7 +33,6 @@ routes:
       # spec accepts any Envoy Gateway BackendTrafficPolicy spec fields:
       # https://gateway.envoyproxy.io/docs/api/extension_types/#backendtrafficpolicyspec
       spec: {}
-
     httpRouteFilter:
       enabled: false
       annotations: {}
@@ -73,28 +45,6 @@ routes:
           inline: "Bad Request"
 
   grpc:
-    enabled: false
-    # -- Set the route kind
-    kind: GRPCRoute
-
-    annotations: {}
-    labels: {}
-
-    hostnames: []
-    parentRefs: []
-
-    backendRefs:
-      - name: tempo-distributor
-        port: 4317
-
-    matches: []
-
-    ## Filters define the filters that are applied to requests that match this rule.
-    filters: []
-
-    ## Additional custom rules that can be added to the route
-    additionalRules: []
-
     securityPolicy:
       enabled: false
       annotations: {}
@@ -102,7 +52,6 @@ routes:
       # basicAuth:
       #   users:
       #     name: <secret_name>
-
     backendTrafficPolicy:
       enabled: false
       annotations: {}
@@ -115,11 +64,42 @@ tempo:
   # You can make the whole chart ineffective by setting this one to "false"
   enabled: true
 
+  route:
+    # HTTPRoute for OTLP HTTP ingestion (port 4318)
+    https:
+      enabled: false
+      kind: HTTPRoute
+      annotations: {}
+      labels: {}
+      hostnames: []
+      parentRefs: []
+      paths:
+        distributor:
+          - path: /
+            pathType: PathPrefix
+            port: 4318
+    # GRPCRoute for OTLP gRPC ingestion
+    grpc:
+      enabled: false
+      kind: GRPCRoute
+      annotations: {}
+      labels: {}
+      hostnames: []
+      parentRefs: []
+      paths:
+        distributor:
+          - path: /opentelemetry
+            pathType: PathPrefix
+            port: 4317
+        ingester:
+          - path: /tempopb
+            pathType: PathPrefix
+            port: 3200
+
   distributor:
     autoscaling:
       enabled: true
       minReplicas: 2
-      targetCPUUtilizationPercentage: 60
     resources:
       limits:
         memory: 300Mi
@@ -188,7 +168,6 @@ tempo:
       enabled: true
 
   memcached:
-    enabled: true
     image:
       repository: giantswarm/memcached
 
@@ -320,28 +299,7 @@ tempo:
       seccompProfile:
         type: RuntimeDefault
 
-  test:
-    enabled: false
-
   traces:
-    jaeger:
-      grpc:
-        # -- Enable Tempo to ingest Jaeger GRPC traces
-        enabled: false
-        # -- Jaeger GRPC receiver config
-      thriftBinary:
-        # -- Enable Tempo to ingest Jaeger Thrift Binary traces
-        enabled: false
-        # -- Jaeger Thrift Binary receiver config
-      receiverConfig: {}
-      thriftCompact:
-        # -- Enable Tempo to ingest Jaeger Thrift Compact traces
-        enabled: false
-        # -- Jaeger Thrift Compact receiver config
-      thriftHttp:
-        # -- Enable Tempo to ingest Jaeger Thrift HTTP traces
-        enabled: false
-        # -- Jaeger Thrift HTTP receiver config
     otlp:
       http:
         # -- Enable Tempo to ingest Open Telemetry HTTP traces

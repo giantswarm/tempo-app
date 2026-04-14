@@ -1,0 +1,108 @@
+{{- if .Values.tempo.enabled -}}
+{{- range $name, $route := .Values.tempo.route -}}
+{{- if $route.enabled -}}
+{{- $routeName := printf "%s-%s" (include "tempo.fullname" $) $name -}}
+{{- $extensions := index $.Values.envoyExtensions $name | default dict -}}
+
+{{- if and (index $extensions "securityPolicy") (index $extensions "securityPolicy" "enabled") }}
+{{- $policy := index $extensions "securityPolicy" }}
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: {{ $routeName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
+    {{- with $policy.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $policy.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: {{ $route.kind | default "HTTPRoute" }}
+      name: {{ $routeName }}
+  {{- with $policy.basicAuth }}
+  basicAuth:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $policy.cors }}
+  cors:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $policy.jwt }}
+  jwt:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $policy.oidc }}
+  oidc:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $policy.extAuth }}
+  extAuth:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $policy.authorization }}
+  authorization:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+
+{{- if and (index $extensions "backendTrafficPolicy") (index $extensions "backendTrafficPolicy" "enabled") }}
+{{- $trafficPolicy := index $extensions "backendTrafficPolicy" }}
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: {{ $routeName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
+    {{- with $trafficPolicy.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $trafficPolicy.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: {{ $route.kind | default "HTTPRoute" }}
+      name: {{ $routeName }}
+  {{- with $trafficPolicy.spec }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+{{- end }}
+
+{{- if and (index $extensions "httpRouteFilter") (index $extensions "httpRouteFilter" "enabled") }}
+{{- $filter := index $extensions "httpRouteFilter" }}
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: HTTPRouteFilter
+metadata:
+  name: {{ $routeName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "tempo.labels" (dict "ctx" $ "component" "gateway") | nindent 4 }}
+    {{- with $filter.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $filter.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with $filter.directResponse }}
+  directResponse:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+
+{{- end -}}
+{{- end -}}
+{{- end -}}
