@@ -177,11 +177,6 @@ tempo:
       enabled: true
       # Make this a string type because of an upstream issue https://github.com/grafana/helm-charts/blob/fdb555b8be1131d5ae4f5f8829a2c6508e3df4ca/charts/tempo-distributed/templates/lib/service-monitor.tpl#L53C33-L53C45
       clusterLabel: "tempo"
-    grafanaAgent:
-      enabled: false
-    prometheusRule:
-      enabled: false
-
   metricsGenerator:
     enabled: true
     kind: StatefulSet
@@ -253,21 +248,10 @@ tempo:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
 
-  rbac:
-    pspEnabled: true
-    pspAnnotations:
-      seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
-
   serviceAccount:
-    # -- Specifies whether a ServiceAccount should be created
-    create: true
     # -- The name of the ServiceAccount to use.
     # If not set and create is true, a name is generated using the fullname template
     name: tempo
-    # -- Image pull secrets for the service account
-    imagePullSecrets: []
-    # -- Annotations for the service account
-    annotations: {}
     automountServiceAccountToken: true
 
   tempo:
