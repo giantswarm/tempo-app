@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade Tempo chart from to 2.6.2 to 2.14.3
   - Upgrades Tempo from 2.10.2 to 2.10.4
 
+### Fixed
+
+- Make sure crossplane cannot delete Crossplane azure storage accounts/containers and s3 buckets.
+
 ## [0.15.1] - 2026-03-16
 
 ### Changed
