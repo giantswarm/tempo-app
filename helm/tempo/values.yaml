@@ -273,6 +273,8 @@ tempo:
           - matchExpressions:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
+    mcp_server:
+      enabled: true
 
   rbac:
     pspEnabled: true
