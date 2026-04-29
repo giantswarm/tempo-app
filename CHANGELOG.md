@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Enable Tempo query-frontend MCP server (`/api/mcp` on `tempo-query-frontend:3200`, ClusterIP-only).
+
 ## [0.16.0] - 2026-04-22
 
 ### Changed

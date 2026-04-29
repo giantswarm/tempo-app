@@ -386,6 +386,14 @@
                     "properties": {
                         "affinity": {
                             "type": "string"
+                        },
+                        "mcp_server": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
                         }
                     }
                 },
