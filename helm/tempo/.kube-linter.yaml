@@ -26,3 +26,5 @@ checks:
     - "access-to-create-pods"
     - "latest-tag"
     - "default-service-account"
+    - "sorted-keys"
+    - "pdb-unhealthy-pod-eviction-policy"

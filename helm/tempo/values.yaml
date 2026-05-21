@@ -118,7 +118,7 @@ tempo:
   distributor:
     autoscaling:
       enabled: true
-      minReplicas: 2
+      minReplicas: 3
       targetCPUUtilizationPercentage: 60
     resources:
       limits:
@@ -151,7 +151,7 @@ tempo:
     enabled: true
     autoscaling:
       enabled: true
-      minReplicas: 2
+      minReplicas: 3
       targetCPUUtilizationPercentage: 90
     image:
       repository: giantswarm/nginx-unprivileged
