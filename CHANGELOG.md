@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-05-26
+
 ### Changed
 
 - Upgrade Tempo Vulture chart from 0.12.9 to 0.12.10 (only bumps the tempo-vulture image from 2.10.4 to 2.10.5)
@@ -210,7 +212,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initialize tempo app
 
-[Unreleased]: https://github.com/giantswarm/tempo-app/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/giantswarm/tempo-app/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/giantswarm/tempo-app/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/giantswarm/tempo-app/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/giantswarm/tempo-app/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/giantswarm/tempo-app/compare/v0.14.0...v0.15.0
