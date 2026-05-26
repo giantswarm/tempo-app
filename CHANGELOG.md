@@ -18,10 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Adds (disabled by default) experimental `backend-scheduler` / `backend-worker` components (chart 2.17.0)
   - Several components migrated to a shared pod template / defaults layer (chart 2.16.x – 2.17.x)
   - Adds `unhealthyPodEvictionPolicy` support on every PodDisruptionBudget (chart 2.23.0)
-
-### Breaking
-
-- Tempo chart 2.17.10 converts the memcached Service to headless (`clusterIP: None`) and changes the StatefulSet `serviceName`. Both fields are immutable, so `helm upgrade` will fail on existing installations with:
+- [BREAKING] Tempo chart 2.17.10 converts the memcached Service to headless (`clusterIP: None`) and changes the StatefulSet `serviceName`. Both fields are immutable, so `helm upgrade` will fail on existing installations with:
   `Service "tempo-memcached" is invalid: spec.clusterIPs[0]: Invalid value: ["None"]: may not change once set && StatefulSet.apps "tempo-memcached" is invalid: spec: Forbidden: updates to statefulset spec for fields other than 'replicas', ...`
   Before upgrading, delete the affected Services and orphan-delete the StatefulSets so the new chart can recreate them:
   ```
