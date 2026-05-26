@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade Tempo chart from 2.14.3 to 2.23.0
+  - Upgrades Tempo from 2.10.4 to 2.10.5
+  - Bumps the `rollout-operator` sub-dependency from 0.47.0 to 0.49.0
+  - Adds (disabled by default) experimental `backend-scheduler` / `backend-worker` components (chart 2.17.0)
+  - Several components migrated to a shared pod template / defaults layer (chart 2.16.x – 2.17.x)
+  - Adds `unhealthyPodEvictionPolicy` support on every PodDisruptionBudget (chart 2.23.0)
+
+### Breaking
+
+- Tempo chart 2.17.10 converts the memcached Service to headless (`clusterIP: None`) and changes the StatefulSet `serviceName`. Both fields are immutable, so `helm upgrade` will fail on existing installations with:
+  `Service "tempo-memcached" is invalid: spec.clusterIPs[0]: Invalid value: ["None"]: may not change once set && StatefulSet.apps "tempo-memcached" is invalid: spec: Forbidden: updates to statefulset spec for fields other than 'replicas', ...`
+  Before upgrading, delete the affected Services and orphan-delete the StatefulSets so the new chart can recreate them:
+  ```
+  kubectl -n <namespace> delete service --selector 'app.kubernetes.io/instance=<release>,app.kubernetes.io/component in (memcached,memcached-bloom,memcached-parquet-footer,memcached-frontend-search)'
+  kubectl -n <namespace> delete statefulset --selector 'app.kubernetes.io/instance=<release>,app.kubernetes.io/component in (memcached,memcached-bloom,memcached-parquet-footer,memcached-frontend-search)' --cascade=orphan
+  ```
+
 ## [0.16.0] - 2026-04-22
 
 ### Changed
