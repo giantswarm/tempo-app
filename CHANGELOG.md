@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Upgrade Tempo Vulture chart from 0.12.9 to 0.12.10 (only bumps the tempo-vulture image from 2.10.4 to 2.10.5)
 - Upgrade Tempo chart from 2.14.3 to 2.23.0
   - Upgrades Tempo from 2.10.4 to 2.10.5
   - Bumps the `rollout-operator` sub-dependency from 0.47.0 to 0.49.0
