@@ -13,8 +13,8 @@ workflows:
           app_catalog_test: "control-plane-test-catalog"
           chart: "tempo"
           ct_config: ".circleci/ct-config.yaml"
+          override_app_version: false
           # Trigger job on git tag.
           filters:
             tags:
               only: /^v.*/
-      
