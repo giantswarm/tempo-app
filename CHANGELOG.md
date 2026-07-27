@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fix ABS config to not override AppVersion in Chart.yaml
+- Upgrade Tempo chart from 2.23.0 to 2.26.2
+  - Upgrades Tempo from 2.10.5 to 2.10.7
+  - Bumps the memcached image from 1.6.42-alpine to 1.6.43-alpine
+  - Bumps the `rollout-operator` sub-dependency from 0.49.0 to 0.50.0 (not enabled here)
+  - The metrics-generator now gets a `livenessProbe` (`/ready`, 60s initial delay), which it did not have when running as a StatefulSet (chart 2.25.4)
+  - Ingester and metrics-generator moved onto the shared pod template; container ports are reordered and the ingester grpc port is now declared via `ingester.extraPorts`. Rendered output is otherwise unchanged, so this is a rolling restart only
+  - Adds (disabled by default) `ingest`/Kafka write path with the experimental `block-builder` and `live-store` components, plus `ingester.enabled` to turn the ingester off (chart 2.24.0)
+  - Adds a `dnsConfig` value on every component with `defaults`/`tempo` fallback, deprecating `dnsConfigOverides` (chart 2.26.1)
+  - Adds `distributor.shutdownDelay` for graceful load-balancer draining, disabled by default (chart 2.26.0)
 
 ## [0.17.0] - 2026-05-26
 
