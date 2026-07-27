@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fix ABS config to not override AppVersion in Chart.yaml
+- Upgrade Tempo Vulture chart from 0.12.10 to 0.13.0
+  - Bumps the tempo-vulture image from 2.10.5 to 3.0.2, which is the only change in the chart
+  - Pins `-tempo-metrics-backoff-duration=0s`: the TraceQL metrics check went from disabled to enabled (every 10s) upstream, and it cannot pass here because we do not enable the metrics-generator `local-blocks` processor
+  - Drops support for the `-rhythm-rf1-after` flag (unused here) and starts honouring `-tempo-push-tls`, which was previously ignored (we leave it disabled)
 - Upgrade Tempo chart from 2.23.0 to 2.26.2
   - Upgrades Tempo from 2.10.5 to 2.10.7
   - Bumps the memcached image from 1.6.42-alpine to 1.6.43-alpine

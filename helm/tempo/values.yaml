@@ -394,6 +394,8 @@ vulture:
   extraArgs:
   - -tempo-org-id=giantswarm
   - -tempo-retention-duration=24h0m0s
+  # TraceQL metrics checks need the metrics-generator "local-blocks" processor, which we don't enable
+  - -tempo-metrics-backoff-duration=0s
 
   image:
     # -- Docker image repository
